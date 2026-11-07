@@ -85,7 +85,7 @@ def pie():
     <div class="pie-arriba">
       <div><p class="pie-titulo"><span class="nariz" aria-hidden="true"></span> La Nariz Mágica</p>
         <p>Festival de clown y magia para toda la familia.<br>{PROXIMA}.</p></div>
-      <div class="pie-org"><span>Organiza</span><img src="/img/logos/dislate.webp" alt="Dislate Producciones" width="67" height="80" loading="lazy"></div>
+      <div class="pie-org"><span>Organiza</span><img src="/img/logos/dislate.webp" alt="Dislate Producciones" width="67" height="80"></div>
     </div>
     <div class="pie-base">
       <span>© <span id="anio">2026</span> Dislate Producciones S.L. · Festival La Nariz Mágica</span>
@@ -163,7 +163,7 @@ def inicio():
       </div>
     </div>
     <div class="portada-arte">
-      {img("img/payaso", "Ilustración del payaso de La Nariz Mágica: sombrero de bombín, ojos cerrados, nariz roja y pajarita", [600, 1000, 1400], "(min-width: 900px) 46vw, 92vw", carga="eager", prioridad=True, ancho=600, alto=600)}
+      {img("img/payaso", "Ilustración del payaso de La Nariz Mágica: sombrero de bombín, ojos cerrados, nariz roja y pajarita", [600, 1000], "(min-width: 900px) 46vw, 92vw", carga="eager", prioridad=True, ancho=600, alto=600)}
       <span class="destello d1" aria-hidden="true">{ICO["chispa"]}</span><span class="destello d2" aria-hidden="true">{ICO["chispa"]}</span>
     </div>
   </div>
@@ -213,7 +213,8 @@ def inicio():
     <span class="nariz nariz-grande" aria-hidden="true"></span>
     <h2>¿Quieren saber más?</h2>
     <p>Para compañías, colaboraciones, prensa o cualquier duda sobre el festival, escríbannos.</p>
-    <a class="boton boton-rojo" href="mailto:{CORREO}">{ICO["mail"]} {CORREO}</a>
+    <a class="boton boton-rojo" href="mailto:{CORREO}">{ICO["mail"]} Escríbannos</a>
+    <p class="correo"><a href="mailto:{CORREO}">{CORREO}</a></p>
   </div>
 </section>
 <script type="application/ld+json">{ld}</script>'''

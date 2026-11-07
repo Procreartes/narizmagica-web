@@ -26,7 +26,7 @@ ARTISTAS = {
 
 # destino (sin sufijo), URL, anchos
 FOTOS = [("img/artistas/" + k, W.format(v), [400, 800]) for k, v in ARTISTAS.items()] + [
-    ("img/payaso", W.format("224076828ed04349be21bc51fb68eebb~mv2.jpg"), [600, 1000, 1400]),
+    ("img/payaso", W.format("224076828ed04349be21bc51fb68eebb~mv2.jpg"), [600, 1000]),
 ]
 
 

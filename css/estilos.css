@@ -135,6 +135,7 @@ svg{width:1.2em;height:1.2em;flex:none}
 .contacto{padding-top:0}
 .contacto-caja{background:var(--papel);border-radius:calc(var(--radio) * 1.6);padding:clamp(36px,6vw,64px);text-align:center;display:flex;flex-direction:column;align-items:center}
 .contacto-caja p{max-width:520px;color:var(--suave)}
+.contacto-caja .correo{margin:14px 0 0;font-weight:700;overflow-wrap:anywhere}
 
 /* Pie */
 .pie{background:var(--tinta);color:#d8d6d2;padding:52px 0 28px}
