@@ -64,7 +64,9 @@ def main():
     if payaso is not None:
         # Color del papel (esquina superior izquierda) para que el fondo de la portada empaste con la ilustración
         r, g, b = payaso.resize((40, 40)).getpixel((1, 1))
-        (RAIZ / "img/payaso-fondo.txt").write_text(f"#{r:02x}{g:02x}{b:02x}\n")
+        fondo = RAIZ / "img/payaso-fondo.txt"
+        if not fondo.exists():  # si ya existe se respeta (se puede ajustar a mano)
+            fondo.write_text(f"#{r:02x}{g:02x}{b:02x}\n")
         print("  fondo", f"#{r:02x}{g:02x}{b:02x}")
         # Imagen para compartir en redes (1200x630) e iconos
         lienzo = Image.new("RGB", (1200, 630), (r, g, b))
