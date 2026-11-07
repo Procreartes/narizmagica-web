@@ -1,0 +1,66 @@
+[
+  {
+    "id": "anibal-mago",
+    "nombre": "Aníbal Mago",
+    "disciplina": "Magia",
+    "texto": "Se acerca la Navidad y se nota en el ambiente. Aníbal Mago se prepara para recibir con ilusión todo lo que trae esta época del año y nos invita a compartir sus regalos: regalos con magia.",
+    "imagen": "img/artistas/anibal-mago",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "el-gran-chispita",
+    "nombre": "El Gran Chispita",
+    "disciplina": "Clown",
+    "texto": "Su espectáculo «La Navidad» nos lleva al mundo de la fantasía con juegos participativos, magia y habilidades acrobáticas. Un espectáculo familiar lleno de sorpresas.",
+    "imagen": "img/artistas/el-gran-chispita",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "payaso-kikiriki",
+    "nombre": "Payaso Kikiriki",
+    "disciplina": "Clown",
+    "texto": "Con un maletín y música animada, llena el ambiente de figuras y trucos para sorprender a todo el público. Y quien se anime a salir se lleva un cariñoso regalo de globo.",
+    "imagen": "img/artistas/payaso-kikiriki",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "chepedro",
+    "nombre": "Chepedro",
+    "disciplina": "Clown",
+    "texto": "Cruzando el Atlántico desde Argentina llega Chepedro, listo para jugar con toda la familia: malabares, equilibrios y habilidades de circo de un payaso tierno y familiar. ¡Pasen y vean!",
+    "imagen": "img/artistas/chepedro",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "giuseppe-salchichone",
+    "nombre": "Giuseppe Salchichone",
+    "disciplina": "Clown",
+    "texto": "Clown para compartir en familia: Giuseppe intentará superar unos retos «muy difíciles». La risa constante y la participación del público lo convierten en un espectáculo divertidísimo.",
+    "imagen": "img/artistas/giuseppe-salchichone",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "rafaelillo",
+    "nombre": "Rafaelillo Clown",
+    "disciplina": "Clown",
+    "texto": "Rafa del Pino crea teatro musical para todas las edades: una aventura por el mundo de la imaginación de la mano de Rafaelillo, el más estrafalario de los payasos, con teatro, danza y mucha música.",
+    "imagen": "img/artistas/rafaelillo",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "miriam-santana",
+    "nombre": "Miriam Santana",
+    "disciplina": "Magia",
+    "texto": "La maga Miriam Santana presenta un espectáculo navideño pensado para el público infantil y familiar, donde el asombro, el entretenimiento y la diversión están garantizados.",
+    "imagen": "img/artistas/miriam-santana",
+    "edicion": "1.ª edición"
+  },
+  {
+    "id": "jessica-guloomal",
+    "nombre": "Jessica Guloomal",
+    "disciplina": "Magia",
+    "texto": "Más de 20 años de trayectoria en un espectáculo de efectos visuales elegantes y sorprendentes. Un viaje por su historia, de sus primeros sueños a convertirse en maga, que recuerda que nunca es tarde para seguir soñando.",
+    "imagen": "img/artistas/jessica-guloomal",
+    "edicion": "1.ª edición"
+  }
+]

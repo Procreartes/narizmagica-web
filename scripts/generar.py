@@ -12,41 +12,31 @@ import sys
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ / "scripts"))
 from iconos import ICO  # noqa: E402
+import json  # noqa: E402
+
+
+def _datos(nombre, defecto):
+    f = RAIZ / "data" / nombre
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else defecto
+
+
+# Datos editables desde el portal (Gestor de webs → La Nariz Mágica): data/edicion.json, data/programa.json, data/artistas.json
+ED = (_datos("edicion.json", []) or [{}])[0]
+LUGAR, FECHAS = ED.get("lugar") or "Telde", ED.get("fechas") or "Diciembre 2026"
+ENTRADA = ED.get("entrada") or "Entrada gratuita"
+TEXTO_EDICION = ED.get("texto") or "Toda la programación se publicará aquí muy pronto."
+PROGRAMA = sorted(_datos("programa.json", []), key=lambda f: (f.get("fecha", ""), f.get("hora", "")))
 
 DOMINIO = "https://narizmagica.es"
 CORREO = "dislateproducciones@gmail.com"
 CORREO_DATOS = "protecciondatos@dislateproducciones.com"
-PROXIMA = "Próximamente en Telde · Diciembre 2026"
+
 ICO["chispa"] = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>'
 ICO["familia"] = ICO["manos"]
 
-# (slug de imagen, nombre, disciplina, texto)
-ARTISTAS = [
-    ("anibal-mago", "Aníbal Mago", "Magia",
-     "Se acerca la Navidad y se nota en el ambiente. Aníbal Mago se prepara para recibir con ilusión todo lo que trae esta época del año "
-     "y nos invita a compartir sus regalos: regalos con magia."),
-    ("el-gran-chispita", "El Gran Chispita", "Clown",
-     "Su espectáculo «La Navidad» nos lleva al mundo de la fantasía con juegos participativos, magia y habilidades acrobáticas. "
-     "Un espectáculo familiar lleno de sorpresas."),
-    ("payaso-kikiriki", "Payaso Kikiriki", "Clown",
-     "Con un maletín y música animada, llena el ambiente de figuras y trucos para sorprender a todo el público. "
-     "Y quien se anime a salir se lleva un cariñoso regalo de globo."),
-    ("chepedro", "Chepedro", "Clown",
-     "Cruzando el Atlántico desde Argentina llega Chepedro, listo para jugar con toda la familia: malabares, equilibrios y habilidades "
-     "de circo de un payaso tierno y familiar. ¡Pasen y vean!"),
-    ("giuseppe-salchichone", "Giuseppe Salchichone", "Clown",
-     "Clown para compartir en familia: Giuseppe intentará superar unos retos «muy difíciles». La risa constante y la participación "
-     "del público lo convierten en un espectáculo divertidísimo."),
-    ("rafaelillo", "Rafaelillo Clown", "Clown",
-     "Rafa del Pino crea teatro musical para todas las edades: una aventura por el mundo de la imaginación de la mano de Rafaelillo, "
-     "el más estrafalario de los payasos, con teatro, danza y mucha música."),
-    ("miriam-santana", "Miriam Santana", "Magia",
-     "La maga Miriam Santana presenta un espectáculo navideño pensado para el público infantil y familiar, donde el asombro, "
-     "el entretenimiento y la diversión están garantizados."),
-    ("jessica-guloomal", "Jessica Guloomal", "Magia",
-     "Más de 20 años de trayectoria en un espectáculo de efectos visuales elegantes y sorprendentes. Un viaje por su historia, de sus "
-     "primeros sueños a convertirse en maga, que recuerda que nunca es tarde para seguir soñando."),
-]
+# Artistas: data/artistas.json [{id, nombre, disciplina, texto, imagen, edicion}]
+ARTISTAS = [(x.get("imagen") or f"img/artistas/{x['id']}", x["nombre"], x.get("disciplina") or "Clown", x.get("texto", ""))
+            for x in _datos("artistas.json", []) if x.get("nombre")]
 CIFRAS = [("4", "días de festival"), ("10", "funciones"), ("8", "compañías y artistas canarios"), ("2", "disciplinas: clown y magia")]
 
 
@@ -84,7 +74,7 @@ def pie():
   <div class="contenedor">
     <div class="pie-arriba">
       <div><p class="pie-titulo"><span class="nariz" aria-hidden="true"></span> La Nariz Mágica</p>
-        <p>Festival de clown y magia para toda la familia.<br>{PROXIMA}.</p></div>
+        <p>Festival de clown y magia para toda la familia.<br>Próximamente en {esc(LUGAR)} · {esc(FECHAS)}.</p></div>
       <div class="pie-org"><span>Organiza</span><img src="/img/logos/dislate.webp" alt="Dislate Producciones" width="67" height="80"></div>
     </div>
     <div class="pie-base">
@@ -133,16 +123,38 @@ def pagina(titulo, descripcion, ruta, cuerpo):
 '''
 
 
+def programa_html():
+    """Programa de la edición (data/programa.json), agrupado por día. Vacío = no se muestra."""
+    if not PROGRAMA:
+        return ""
+    import datetime
+    dias, html_dias = {}, ""
+    for f in PROGRAMA:
+        dias.setdefault(f.get("fecha", ""), []).append(f)
+    nombres = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+    for d, fs in dias.items():
+        try:
+            dt = datetime.date.fromisoformat(d)
+            titulo = f"{nombres[dt.weekday()]} {dt.day} de {meses[dt.month - 1]}".capitalize()
+        except ValueError:
+            titulo = d
+        filas = "".join(f'''<li><time>{esc(f.get("hora", ""))}</time><div><strong>{esc(f.get("artista", ""))}</strong>
+          {f'<span>{esc(f["espectaculo"])}</span>' if f.get("espectaculo") else ""}<small>{esc(f.get("lugar", ""))}{" · " + esc(f["nota"]) if f.get("nota") else ""}</small></div></li>''' for f in fs)
+        html_dias += f'<div class="prog-dia"><h3>{titulo}</h3><ol>{filas}</ol></div>'
+    return f'<div class="programa aparece"><h3 class="programa-titulo">Programa</h3>{html_dias}</div>'
+
+
 def inicio():
     cifras = "".join(f'<li><strong>{n}</strong><span>{t}</span></li>' for n, t in CIFRAS)
     artistas = "".join(f'''<article class="artista aparece">
-        {img("img/artistas/" + s, n, [400, 800], "(min-width: 1100px) 260px, (min-width: 700px) 45vw, 90vw", ancho=400, alto=400)}
-        <div><span class="etiqueta etiqueta-{d.lower()}">{d}</span><h3>{esc(n)}</h3><p>{esc(t)}</p></div>
+        {img(s, n, [400, 800], "(min-width: 1100px) 260px, (min-width: 700px) 45vw, 90vw", ancho=400, alto=400)}
+        <div><span class="etiqueta etiqueta-{d.lower()}">{esc(d)}</span><h3>{esc(n)}</h3><p>{esc(t)}</p></div>
       </article>''' for s, n, d, t in ARTISTAS)
     datos = "".join(f'<li>{ICO[i]}<div><strong>{a}</strong><span>{b}</span></div></li>' for i, a, b in [
-        ("pin", "Dónde", "Telde, Gran Canaria. Los espacios se anunciarán muy pronto."),
-        ("cal", "Cuándo", "Diciembre de 2026, en plenas fiestas navideñas."),
-        ("ticket", "Entrada", "Gratuita para todos los públicos."),
+        ("pin", "Dónde", f"{esc(LUGAR)}, Gran Canaria." + ("" if PROGRAMA else " Los espacios se anunciarán muy pronto.")),
+        ("cal", "Cuándo", esc(FECHAS) + "."),
+        ("ticket", "Entrada", esc(ENTRADA) + "."),
         ("familia", "Para quién", "Familias, peques y mayores con ganas de reír."),
     ])
     ld = ('{"@context":"https://schema.org","@type":"Festival","name":"Festival La Nariz Mágica",'
@@ -155,8 +167,8 @@ def inicio():
     <div class="portada-texto">
       <p class="antetitulo">Festival de clown y magia para toda la familia</p>
       <h1>La Nariz <span>Mágica</span></h1>
-      <p class="proxima">{ICO["chispa"]}<span>Próximamente en <strong>Telde</strong><br><em>Diciembre 2026</em></span></p>
-      <p class="entrada">Entrada gratuita</p>
+      <p class="proxima">{ICO["chispa"]}<span>Próximamente en <strong>{esc(LUGAR)}</strong><br><em>{esc(FECHAS)}</em></span></p>
+      <p class="entrada">{esc(ENTRADA)}</p>
       <div class="botones">
         <a class="boton boton-rojo" href="#telde">Qué sabemos de 2026 {ICO["flecha"]}</a>
         <a class="boton boton-linea" href="#artistas">Artistas de la 1.ª edición</a>
@@ -189,11 +201,12 @@ def inicio():
 <section class="seccion seccion-azul" id="telde">
   <div class="contenedor">
     <div class="cabecera-seccion aparece">
-      <p class="antetitulo">Telde · Navidad 2026</p>
-      <h2>La segunda edición llega a Telde</h2>
-      <p class="entradilla">Estamos cerrando fechas, espacios y compañías. Toda la programación se publicará aquí muy pronto.</p>
+      <p class="antetitulo">{esc(LUGAR)} · {esc(FECHAS)}</p>
+      <h2>La segunda edición llega a {esc(LUGAR)}</h2>
+      <p class="entradilla">{esc(TEXTO_EDICION)}</p>
     </div>
     <ul class="datos aparece">{datos}</ul>
+    {programa_html()}
   </div>
 </section>
 
@@ -218,8 +231,8 @@ def inicio():
   </div>
 </section>
 <script type="application/ld+json">{ld}</script>'''
-    return pagina("Festival La Nariz Mágica · Clown y magia · Próximamente en Telde, diciembre 2026",
-                  "Festival de clown y magia para toda la familia. Próximamente en Telde (Gran Canaria) en diciembre de 2026, con entrada gratuita.",
+    return pagina(f"Festival La Nariz Mágica · Clown y magia · Próximamente en {LUGAR}, {FECHAS.lower()}",
+                  f"Festival de clown y magia para toda la familia. Próximamente en {LUGAR} (Gran Canaria): {FECHAS.lower()}. {ENTRADA}.",
                   "/", cuerpo)
 
 

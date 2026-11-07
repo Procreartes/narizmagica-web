@@ -162,3 +162,14 @@ html:not(.sin-js) .aparece:not(.visible){opacity:0;transform:translateY(24px)}
   *,*::before,*::after{animation:none!important;transition:none!important}
   html:not(.sin-js) .aparece:not(.visible){opacity:1;transform:none}
 }
+
+/* Programa (data/programa.json) */
+.programa{margin-top:28px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--radio);padding:22px}
+.programa-titulo{font-size:1.6rem;margin-bottom:12px}
+.prog-dia h3{font-size:1.2rem;color:#f3d38a;margin:14px 0 8px}
+.prog-dia ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.prog-dia li{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:start;padding:10px 0;border-top:1px solid rgba(255,255,255,.14)}
+.prog-dia time{font:700 1.2rem var(--titulos)}
+.prog-dia strong{display:block;font:600 1.1rem var(--titulos)}
+.prog-dia span{display:block}
+.prog-dia small{color:#dbe7ef}
