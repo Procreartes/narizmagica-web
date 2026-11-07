@@ -19,3 +19,9 @@ Se trajeron de la antigua web de Wix con la acción **Traer imágenes de Wix** (
 - `_headers`: cabeceras de seguridad (CSP) y caché.
 - `_redirects`: redirige las direcciones antiguas de Wix.
 - `.assetsignore`: lo que no se publica (scripts, README…).
+
+## Edición, programa y artistas (desde el portal)
+
+Se editan en **Portal → Gestor de webs → La Nariz Mágica** y viven en `data/`: `edicion.json` (lugar, fechas, entrada y
+texto de la sección de la edición), `programa.json` (una fila por función; si está vacío no se muestra) y `artistas.json`
+(con foto). La acción **Publicar la web** regenera la página y Cloudflare la sirve.
